@@ -97,6 +97,8 @@ class ProjectController < OSX::NSWindowController
   
   def update_status_window(notification)
     @status_hud_window_text.setString notification.object.log
+    range = OSX::NSRange.new(@status_hud_window_text.string.length, 0)
+    @status_hud_window_text.scrollRangeToVisible range
   end
   
   def build_completed(notification)
