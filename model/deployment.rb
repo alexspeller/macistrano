@@ -21,6 +21,14 @@ class Deployment < OSX::NSObject
     self.completed_at = deployment.completed_at
     self.log = deployment.log
     self.success = deployment.success
-    notify_deployment_status_updated self
+    
+    notify_deployment_status_updated deployment
+    if deployment.completed?
+      notify_stage_build_completed deployment
+    end
+  end
+  
+  def completed?
+    !completed_at.nil? && completed_at != ''
   end
 end
