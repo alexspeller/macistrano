@@ -96,7 +96,7 @@ class ProjectController < OSX::NSWindowController
   end
   
   def update_status_window(notification)
-    @status_hud_window_text.setStringValue notification.object.log
+    @status_hud_window_text.setString notification.object.log
   end
   
   def build_completed(notification)
@@ -155,7 +155,7 @@ class ProjectController < OSX::NSWindowController
     @run_task_dialog.close
     webistrano_controller.setup_one_time_deployment_status_timer
     @deployment_status_spinner.startAnimation(self)
-    @status_hud_window_text.setStringValue("")
+    @status_hud_window_text.setString("Starting Deployment…")
     reset_fields
   end
   ib_action :run_task
