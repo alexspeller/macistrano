@@ -15,8 +15,12 @@ module GrowlSupport
         GROWL_MESSAGE_TYPES[:deployment_canceled]
       when "failed":
         GROWL_MESSAGE_TYPES[:deployment_failed]
+      when "running"
+        raise "Tried to notify about a running deploy"
+      else
+        raise "Unknown deployment status: #{deployment.status.inspect}"
       end
-    @growl_notifier.notify(message, message, "Stage #{deployment.stage.name} of project #{deployment.stage.project.name} (Host: #{deployment.stage.project.host.url})", nil, true)
+    @growl_notifier.notify(message, message, "Stage #{deployment.stage.name} of project #{deployment.stage.project.name} (Host: #{deployment.stage.project.host.url})")
   end
   
   def init_growl
