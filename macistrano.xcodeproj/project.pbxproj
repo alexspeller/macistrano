@@ -15,6 +15,9 @@
 		4DDCA70D0ACC9A6100E082CE /* RubyCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8F5E24E03AEB6EC03A81C6F /* RubyCocoa.framework */; };
 		5339961213ECA2DE006D1FB2 /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5339961113ECA2DE006D1FB2 /* BWToolkitFramework.framework */; };
 		5339961613ECA303006D1FB2 /* BWToolkitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5339961113ECA2DE006D1FB2 /* BWToolkitFramework.framework */; };
+		5339968713ECC188006D1FB2 /* icon-cancelled-large.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5339968413ECC188006D1FB2 /* icon-cancelled-large.gif */; };
+		5339968813ECC188006D1FB2 /* icon-failed-large.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5339968513ECC188006D1FB2 /* icon-failed-large.gif */; };
+		5339968913ECC188006D1FB2 /* icon-success-large.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5339968613ECC188006D1FB2 /* icon-success-large.gif */; };
 		FE1191EC0DD89E120073164F /* task.rb in Resources */ = {isa = PBXBuildFile; fileRef = FE1191EB0DD89E120073164F /* task.rb */; };
 		FE17B5B60E0D7E0600682156 /* growl_notifier.rb in Resources */ = {isa = PBXBuildFile; fileRef = FE17B5B50E0D7E0600682156 /* growl_notifier.rb */; };
 		FE33BD980DDDFB3D003ACBAA /* load_operation.rb in Resources */ = {isa = PBXBuildFile; fileRef = FE33BD970DDDFB3D003ACBAA /* load_operation.rb */; };
@@ -84,6 +87,9 @@
 		4DDCA7110ACC9A6100E082CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4DDCA7120ACC9A6100E082CE /* Macistrano.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Macistrano.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5339961113ECA2DE006D1FB2 /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = /Users/aspeller/Downloads/BWToolkit/BWToolkitFramework.framework; sourceTree = "<absolute>"; };
+		5339968413ECC188006D1FB2 /* icon-cancelled-large.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "icon-cancelled-large.gif"; sourceTree = "<group>"; };
+		5339968513ECC188006D1FB2 /* icon-failed-large.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "icon-failed-large.gif"; sourceTree = "<group>"; };
+		5339968613ECC188006D1FB2 /* icon-success-large.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "icon-success-large.gif"; sourceTree = "<group>"; };
 		E8F5E24E03AEB6EC03A81C6F /* RubyCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RubyCocoa.framework; path = /System/Library/Frameworks/RubyCocoa.framework; sourceTree = "<absolute>"; };
 		E8F5E25803AEB7C803A81C6F /* rb_main.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = rb_main.rb; sourceTree = "<group>"; };
 		FE1191EB0DD89E120073164F /* task.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; name = task.rb; path = model/task.rb; sourceTree = "<group>"; };
@@ -215,6 +221,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5339968413ECC188006D1FB2 /* icon-cancelled-large.gif */,
+				5339968513ECC188006D1FB2 /* icon-failed-large.gif */,
+				5339968613ECC188006D1FB2 /* icon-success-large.gif */,
 				FEA76B820DD7547D00D171BE /* Security.bridgesupport */,
 				FE5F04220DC11D75009DA75F /* icon-success-building.png */,
 				FE5F04230DC11D75009DA75F /* icon-success.png */,
@@ -362,6 +371,9 @@
 				FEE6BA300F2879F700402101 /* growl_support.rb in Resources */,
 				FEE6BA540F2892FC00402101 /* Credits.html in Resources */,
 				FEE6BA7C0F2897DF00402101 /* icon-canceled.png in Resources */,
+				5339968713ECC188006D1FB2 /* icon-cancelled-large.gif in Resources */,
+				5339968813ECC188006D1FB2 /* icon-failed-large.gif in Resources */,
+				5339968913ECC188006D1FB2 /* icon-success-large.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
