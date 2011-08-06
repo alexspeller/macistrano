@@ -53,7 +53,9 @@ class ProjectController < OSX::NSWindowController
   def remove_loading(notification)
     item = @statusItem.menu.itemWithTitle("Loading...")
     @statusItem.menu.removeItem(item) unless item.nil?
-    webistrano_controller.setup_build_check_timer
+    
+    # Disable this for now - it's too costly with lots of projects
+    # webistrano_controller.setup_build_check_timer
   end
   
   def add_host(notification)
