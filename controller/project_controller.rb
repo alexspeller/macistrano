@@ -67,7 +67,7 @@ class ProjectController < OSX::NSWindowController
   
   def add_host(notification)
     notification.object.projects.each do |project|
-      item = status_menu.insertItemWithTitle_action_keyEquivalent_atIndex_("#{project.name.to_s} (#{project.host.url})", nil, "", 0)
+      item = status_menu.insertItemWithTitle_action_keyEquivalent_atIndex_(project.name.to_s, nil, "", 0)
       item.setTarget self
       item.setRepresentedObject project
       add_stages project
@@ -152,7 +152,7 @@ class ProjectController < OSX::NSWindowController
   def add_projects(notification)
     options = notification.object
     options[:projects].each do |project|
-      item = status_menu.insertItemWithTitle_action_keyEquivalent_atIndex_("#{project.name.to_s} (#{project.host.url})", nil, "", status_menu.numberOfItems)
+      item = status_menu.insertItemWithTitle_action_keyEquivalent_atIndex_(project.name.to_s, nil, "", status_menu.numberOfItems)
       item.setTarget self
       item.setRepresentedObject project
     end
