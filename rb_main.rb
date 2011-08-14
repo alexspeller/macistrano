@@ -11,6 +11,8 @@ if defined?(COCOA_APP_RESOURCES_DIR)
 end
 
 require 'osx/cocoa'
+require 'rubygems'
+require 'string_scorer'
 
 def rb_main_init
   path = OSX::NSBundle.mainBundle.resourcePath.fileSystemRepresentation

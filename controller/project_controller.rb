@@ -32,6 +32,9 @@ class ProjectController < OSX::NSWindowController
   ib_outlet :status_hud_window_text
   ib_outlet :show_status_window_checkbox
   ib_outlet :deployment_status_spinner
+  ib_outlet :quick_deploy_window
+  ib_outlet :quick_deploy_text_field
+  ib_outlet :quick_deploy_table
   
   ib_action :show_about do
     NSApp.orderFrontStandardAboutPanel self
@@ -56,6 +59,10 @@ class ProjectController < OSX::NSWindowController
     set_status_icon 'webistrano-small'
     # Disable this for now - it's too costly with lots of projects
     # webistrano_controller.setup_build_check_timer
+    
+    item = status_menu.itemWithTitle("Quick Deploy")
+    item.setTarget self
+    item.setEnabled true
   end
   
   def add_host(notification)
@@ -163,7 +170,88 @@ class ProjectController < OSX::NSWindowController
     reset_fields
   end
   ib_action :run_task
-   
+  
+  
+  def quick_deploy(sender=nil)
+    @quick_deploy_window.makeKeyAndOrderFront(self)
+    @quick_deploy_text_field.becomeFirstResponder
+    NSApp.activateIgnoringOtherApps true
+    @objects = []
+    @all_objects = []
+    @columns = ["Project", "Stage", "Action"]
+    @quick_deploy_strings = {}
+    @preferences_controller.hosts.each do |host|
+      host.projects.each do |project|
+        project.stages.each do |stage|
+          stage.tasks.each do |task|   
+            full_string    = "#{project.name} #{stage.name} #{task.name}"         
+            object         = {
+              @columns[0]  => project.name,
+              @columns[1]  => stage.name,
+              @columns[2]  => task.name,
+              :full_string => full_string,
+              :stage       => stage
+            }
+            @objects << object
+            @all_objects << object
+            
+            @quick_deploy_strings[object] = full_string
+          end
+        end
+      end 
+    end
+    
+    @quick_deploy_table.reloadData
+  end
+  ib_action :quick_deploy
+  
+  def execute_quick_deploy(sender=nil)
+    if @quick_deploy_table.selectedRow
+      @object = @objects[@quick_deploy_table.selectedRow]
+      
+      @task_field.setStringValue(@object["Action"])
+      @selected_stage = @object[:stage]
+      @run_task_dialog.makeFirstResponder(@description_field)
+      @run_task_dialog.makeKeyAndOrderFront(self)
+      NSApp.activateIgnoringOtherApps(true)
+      @run_task_dialog.center
+    end
+    
+  end
+  ib_action :execute_quick_deploy
+  
+  def numberOfRowsInTableView(aTableView)
+    return @objects.length rescue 0
+  end
+  
+  def controlTextDidChange(note)
+    value = @quick_deploy_text_field.stringValue.to_s
+    @all_objects.sort! do |a, b|
+      a[:scores] ||= {}
+      a[:scores][value] ||= a[:full_string].score(value)
+      b[:scores] ||= {}
+      b[:scores][value] ||= b[:full_string].score(value)
+      
+      b[:scores][value] <=> a[:scores][value]
+    end
+    @objects = @all_objects.clone
+    @objects.delete_if do |object|
+      object[:scores][value] == 0.0
+    end
+    index = NSIndexSet.indexSetWithIndex 0
+    @quick_deploy_table.selectRowIndexes_byExtendingSelection index, false
+    @quick_deploy_table.reloadData
+  end
+  
+
+  def tableView_objectValueForTableColumn_row(afileTable, aTableColumn, rowIndex)
+    @columns.each do |column|
+      if aTableColumn.headerCell.stringValue == column
+  	    object = @objects[rowIndex]
+    	  return object[column]
+      end
+    end
+  end
   ib_action :closeTaskWindow do
     @run_task_dialog.close
     reset_fields
@@ -226,6 +314,11 @@ class ProjectController < OSX::NSWindowController
     
     @statusItem.menu.insertItem_atIndex(NSMenuItem.separatorItem, 1)
     item = @statusItem.menu.insertItemWithTitle_action_keyEquivalent_atIndex_("Show Status Window", "show_status:", "", 2)
+    item.setTarget self
+
+    item = NSMenuItem.alloc.initWithTitle_action_keyEquivalent("Quick Deploy", "quick_deploy:", "")
+    item.setEnabled false
+    status_menu.insertItem_atIndex(item, status_menu.numberOfItems)
     item.setTarget self
 
     item = @statusItem.menu.insertItemWithTitle_action_keyEquivalent_atIndex_("Preferences", "show_preferences:", "", 3)
