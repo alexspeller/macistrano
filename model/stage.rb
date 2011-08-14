@@ -47,7 +47,8 @@ class Stage < OSX::NSObject
     notify_deployment_started self
   end
   
-  def post_url_failed(error)
+  def post_url_failed(data, error)
+    $stderr.puts "post_url_failed", data.inspect, error.inspect
     notify_starting_deployment_failed self
   end
   
@@ -61,24 +62,18 @@ class Stage < OSX::NSObject
     xml.target!
   end
   
-  def fetch_tasks
-    LoadOperationQueue.queue_request tasks_url, self, {:username => project.host.username, :password => project.host.password}
-  end
-  
-  def url_finished(data)
-    to_tasks(data)
+  def fetch_tasks doc
+    to_tasks doc
     self.fully_loaded = true
-    notify_tasks_loaded(self)
-    notify_stage_tasks_loaded(self)
   end
-  
-  def to_tasks(result)
-    @tasks ||= []
-    doc = Hpricot.XML(result)
-    (doc/'record').collect do |data|
+    
+  def to_tasks doc
+    @tasks = []
+    (doc/'task-names').inner_text.split("\n").collect do |task_name|
       task = Task.alloc.init
-      task.name = (data/:name).text
-      task.description = (data/:description).text
+      task.name = task_name
+      # not getting descriptions yet
+      task.description = task.name
       task.stage = self
       @tasks << task
     end

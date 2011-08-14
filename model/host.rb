@@ -14,7 +14,6 @@ require 'load_operation_queue'
 
 class Host < OSX::NSObject
   include NotificationHub
-  notify :project_loaded, :when => :project_fully_loaded
   
   ACCEPT_VERSION = [1, 3, 1]
   
@@ -47,10 +46,6 @@ class Host < OSX::NSObject
     @projects && @projects.select{|project| !project.fully_loaded?}.empty?
   end
   
-  def project_loaded(notification)
-    return unless notification.object.host == self
-    notify_host_fully_loaded(self) if fully_loaded?
-  end
   
   def load_url_failed(url, error)
     notify_host_load_failed self
@@ -122,7 +117,7 @@ class Host < OSX::NSObject
   
   def find_projects_success(data)
     to_projects(data)
-    notify_project_loaded :host => self, :projects => projects
+    notify_host_fully_loaded(self) 
   end
   
   def to_projects response
@@ -130,11 +125,11 @@ class Host < OSX::NSObject
     doc = Hpricot.XML response
     (doc/'project').each do |data|
       project = Project.new
-      project.webistrano_id = (data/:id).text
-      project.name = (data/:name).text
+      project.webistrano_id = (data/">id").text
+      project.name = (data/">name").first.inner_text
       project.host = self
       @projects << project
-      project.fetch_stages
+      project.fetch_stages(data)
     end
     @projects
   end
