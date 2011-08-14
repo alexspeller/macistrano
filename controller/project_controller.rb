@@ -144,6 +144,11 @@ class ProjectController < OSX::NSWindowController
     @run_task_dialog.center
   end
   
+  def stage_clicked(sender)
+    url = NSURL.URLWithString sender.representedObject.url
+    NSWorkspace.sharedWorkspace.openURL url
+  end
+  
   def add_projects(notification)
     options = notification.object
     options[:projects].each do |project|
@@ -264,7 +269,7 @@ class ProjectController < OSX::NSWindowController
       sub_menu = NSMenu.alloc.init
       lastIndex = 0
       project.stages.each do |stage|
-        sub_item = sub_menu.insertItemWithTitle_action_keyEquivalent_atIndex_(stage.name, nil, "", lastIndex)
+        sub_item = sub_menu.insertItemWithTitle_action_keyEquivalent_atIndex_(stage.name, "stage_clicked:", "", lastIndex)
         sub_item.setTarget self
         sub_item.setRepresentedObject stage
         lastIndex += 1

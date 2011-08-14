@@ -35,6 +35,10 @@ class Stage < OSX::NSObject
     "#{project.host.url}/projects/#{project.webistrano_id}/stages/#{webistrano_id}/deployments/latest.xml"
   end
   
+  def url
+    "#{project.host.url}/projects/#{project.webistrano_id}/stages/#{webistrano_id}"
+  end
+  
   def run_stage task, comment
     LoadOperationQueue.queue_post_request(deployments_url, self, :username => project.host.username, :password => project.host.password, :body => new_deployment_as_xml(task, comment).to_s, :on_success => :post_url_finished, :on_error => :post_url_failed)
   end
