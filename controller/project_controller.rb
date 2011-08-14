@@ -148,16 +148,7 @@ class ProjectController < OSX::NSWindowController
     url = NSURL.URLWithString sender.representedObject.url
     NSWorkspace.sharedWorkspace.openURL url
   end
-  
-  def add_projects(notification)
-    options = notification.object
-    options[:projects].each do |project|
-      item = status_menu.insertItemWithTitle_action_keyEquivalent_atIndex_(project.name.to_s, nil, "", status_menu.numberOfItems)
-      item.setTarget self
-      item.setRepresentedObject project
-    end
-  end
-  
+    
   def run_task(sender = nil)
     taskName = @task_field.stringValue.to_s
     description = @description_field.stringValue.to_s
