@@ -51,9 +51,9 @@ class ProjectController < OSX::NSWindowController
   end
   
   def remove_loading(notification)
-    item = @statusItem.menu.itemWithTitle("Loading...")
-    @statusItem.menu.removeItem(item) unless item.nil?
-    
+    item = status_menu.itemWithTitle("Loading...")
+    status_menu.removeItem(item) unless item.nil?
+    set_status_icon 'webistrano-small'
     # Disable this for now - it's too costly with lots of projects
     # webistrano_controller.setup_build_check_timer
   end
@@ -212,7 +212,7 @@ class ProjectController < OSX::NSWindowController
    
   def create_status_bar
     @statusItem = OSX::NSStatusBar.systemStatusBar.statusItemWithLength(OSX::NSVariableStatusItemLength)
-    set_status_icon 'webistrano-small'
+    set_status_icon 'webistrano-small-disabled'
     @statusItem.setHighlightMode true
     @statusItem.setMenu @status_menu
     @statusItem.setTarget self
