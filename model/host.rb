@@ -113,10 +113,14 @@ class Host < OSX::NSObject
   end
   
   def find_projects
-    LoadOperationQueue.queue_request collection_url, self, {:username => username, :password => password}
+    LoadOperationQueue.queue_request collection_url, self, :username => username, :password => password, :on_error => :find_projects_failed, :on_success => :find_projects_success
   end
   
-  def url_finished(data)
+  def find_projects_failed data, error
+    $stderr.puts "Could not find projects:", error
+  end
+  
+  def find_projects_success(data)
     to_projects(data)
     notify_project_loaded :host => self, :projects => projects
   end
