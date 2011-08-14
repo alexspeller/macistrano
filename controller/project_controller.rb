@@ -67,7 +67,7 @@ class ProjectController < OSX::NSWindowController
   
   def add_host(notification)
     notification.object.projects.each do |project|
-      item = @statusItem.menu.insertItemWithTitle_action_keyEquivalent_atIndex_("#{project.name.to_s} (#{project.host.url})", nil, "", 0)
+      item = status_menu.insertItemWithTitle_action_keyEquivalent_atIndex_("#{project.name.to_s} (#{project.host.url})", nil, "", 0)
       item.setTarget self
       item.setRepresentedObject project
       add_stages project
@@ -76,9 +76,9 @@ class ProjectController < OSX::NSWindowController
   
   def remove_host(notification)
     host = notification.object
-    @statusItem.menu.itemArray.each do |item|
+    status_menu.itemArray.each do |item|
       if item.representedObject.is_a?(Project)
-        @statusItem.menu.removeItem(item) if item.representedObject.host.eql?(host)
+        status_menu.removeItem(item) if item.representedObject.host.eql?(host)
       end
     end
   end
@@ -91,9 +91,9 @@ class ProjectController < OSX::NSWindowController
   end
   
   def set_stage_submenu_enabled(deployment, enabled, icon)
-    index = @statusItem.menu.indexOfItemWithRepresentedObject deployment.stage.project
+    index = status_menu.indexOfItemWithRepresentedObject deployment.stage.project
     unless index == -1
-      project_menu = @statusItem.menu.itemAtIndex(index).submenu
+      project_menu = status_menu.itemAtIndex(index).submenu
       stage_menu_index = project_menu.indexOfItemWithRepresentedObject deployment.stage
       stage_menu_item = project_menu.itemAtIndex(stage_menu_index)
       stage_menu_item.setImage get_icon(icon)
@@ -147,7 +147,7 @@ class ProjectController < OSX::NSWindowController
   def add_projects(notification)
     options = notification.object
     options[:projects].each do |project|
-      item = @statusItem.menu.insertItemWithTitle_action_keyEquivalent_atIndex_("#{project.name.to_s} (#{project.host.url})", nil, "", @statusItem.menu.numberOfItems)
+      item = status_menu.insertItemWithTitle_action_keyEquivalent_atIndex_("#{project.name.to_s} (#{project.host.url})", nil, "", status_menu.numberOfItems)
       item.setTarget self
       item.setRepresentedObject project
     end
@@ -258,9 +258,9 @@ class ProjectController < OSX::NSWindowController
   end
   
   def add_stages(project)
-    idx = @statusItem.menu.indexOfItemWithRepresentedObject(project)
+    idx = status_menu.indexOfItemWithRepresentedObject(project)
     if idx >= 0
-      item = @statusItem.menu.itemAtIndex(idx)
+      item = status_menu.itemAtIndex(idx)
       sub_menu = NSMenu.alloc.init
       lastIndex = 0
       project.stages.each do |stage|
@@ -308,27 +308,34 @@ class ProjectController < OSX::NSWindowController
   end
    
   def update_menu(hosts_list = nil)
+    # Loading...
     item = NSMenuItem.alloc.initWithTitle_action_keyEquivalent("Loading...", nil, "")
     item.setEnabled false
-    @statusItem.menu.insertItem_atIndex(item, 0)
-    
-    @statusItem.menu.insertItem_atIndex(NSMenuItem.separatorItem, 1)
-    item = @statusItem.menu.insertItemWithTitle_action_keyEquivalent_atIndex_("Show Status Window", "show_status:", "", 2)
-    item.setTarget self
+    status_menu.insertItem_atIndex(item, status_menu.numberOfItems)
 
+    # -----
+    status_menu.insertItem_atIndex(NSMenuItem.separatorItem, status_menu.numberOfItems)
+    
+    # Quick Deploy
     item = NSMenuItem.alloc.initWithTitle_action_keyEquivalent("Quick Deploy", "quick_deploy:", "")
     item.setEnabled false
     status_menu.insertItem_atIndex(item, status_menu.numberOfItems)
+    
+    # Show Status Window
+    item = status_menu.insertItemWithTitle_action_keyEquivalent_atIndex_("Show Status Window", "show_status:", "", status_menu.numberOfItems)
     item.setTarget self
 
-    item = @statusItem.menu.insertItemWithTitle_action_keyEquivalent_atIndex_("Preferences", "show_preferences:", "", 3)
+    # Preferences
+    item = status_menu.insertItemWithTitle_action_keyEquivalent_atIndex_("Preferences", "show_preferences:", "", status_menu.numberOfItems)
     item.setTarget self
-
-    item = @statusItem.menu.insertItemWithTitle_action_keyEquivalent_atIndex_("About", "show_about:", "", 4)
+    
+    # About
+    item = status_menu.insertItemWithTitle_action_keyEquivalent_atIndex_("About", "show_about:", "", status_menu.numberOfItems)
     item.setTarget self
-    @statusItem.menu.insertItem_atIndex(NSMenuItem.separatorItem, 5)
+    status_menu.insertItem_atIndex(NSMenuItem.separatorItem, status_menu.numberOfItems)
 
-    item = @statusItem.menu.insertItemWithTitle_action_keyEquivalent_atIndex_("Quit", "quit:", "", 6)
+    # Quit
+    item = status_menu.insertItemWithTitle_action_keyEquivalent_atIndex_("Quit", "quit:", "", status_menu.numberOfItems)
     item.setTarget self
 
     fetch_projects
