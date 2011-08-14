@@ -20,7 +20,7 @@ class LoadOperation < OSX::NSOperation
   end
   
   def start
-    request = NSURLRequest.requestWithURL_cachePolicy_timeoutInterval(@url, NSURLRequestReloadIgnoringLocalCacheData, 10.0)
+    request = NSURLRequest.requestWithURL_cachePolicy_timeoutInterval(@url, NSURLRequestReloadIgnoringLocalCacheData, 30.0)
     NSURLRequest.setAllowsAnyHTTPSCertificate_forHost(true, request.URL.host)
     @connection = NSURLConnection.connectionWithRequest_delegate(request, self)
     setExecuting true
