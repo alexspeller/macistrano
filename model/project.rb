@@ -23,6 +23,10 @@ class Project < OSX::NSObject
   def stages_url
     "#{host.url}/projects/#{self.webistrano_id}/stages.xml"
   end
+
+  def url
+    "#{host.url}/projects/#{webistrano_id}"
+  end
   
   def fetch_stages doc
     to_stages doc

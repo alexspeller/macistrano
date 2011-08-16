@@ -70,7 +70,7 @@ class ProjectController < OSX::NSWindowController
   
   def add_host(notification)
     notification.object.projects.each do |project|
-      item = status_menu.insertItemWithTitle_action_keyEquivalent_atIndex_(project.name.to_s, nil, "", 0)
+      item = status_menu.insertItemWithTitle_action_keyEquivalent_atIndex_(project.name.to_s, "project_clicked:", "", 0)
       item.setTarget self
       item.setRepresentedObject project
       add_stages project
@@ -156,6 +156,11 @@ class ProjectController < OSX::NSWindowController
   end
   
   def stage_clicked(sender)
+    url = NSURL.URLWithString sender.representedObject.url
+    NSWorkspace.sharedWorkspace.openURL url
+  end
+
+  def project_clicked sender
     url = NSURL.URLWithString sender.representedObject.url
     NSWorkspace.sharedWorkspace.openURL url
   end
