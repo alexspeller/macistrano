@@ -21,7 +21,7 @@ class ProjectController < OSX::NSWindowController
   notify :build_running, :when => :stage_build_running
   notify :update_status_window, :when => :deployment_status_updated
   
-  attr_reader :status_menu, :webistrano_controller
+  attr_reader :status_menu, :webistrano_controller, :quick_deploy_menu_item
   attr_accessor :loaded, :growl_notifier
    
   ib_outlet :run_task_dialog
@@ -35,6 +35,8 @@ class ProjectController < OSX::NSWindowController
   ib_outlet :quick_deploy_window
   ib_outlet :quick_deploy_text_field
   ib_outlet :quick_deploy_table
+  ib_outlet :project_label
+  ib_outlet :stage_label
   
   ib_action :show_about do
     NSApp.orderFrontStandardAboutPanel self
@@ -47,6 +49,7 @@ class ProjectController < OSX::NSWindowController
   def awakeFromNib
     @webistrano_controller = WebistranoController.alloc.init
     @status_menu = OSX::NSMenu.alloc.init
+    @hotkey_center = DDHotKeyCenter.alloc.init
     show_preferences(self) if @preferences_controller.hosts.empty?
     webistrano_controller.hosts = @preferences_controller.hosts
     create_status_bar
@@ -135,9 +138,17 @@ class ProjectController < OSX::NSWindowController
     @preferences_controller.showPreferences
   end
   
-  def clicked(sender)
-    @selected_stage = sender.representedObject.stage
-    @task_field.setStringValue(sender.representedObject.name)
+  def clicked sender
+    show_run_window_for_task(sender.representedObject)
+  end
+  
+  def show_run_window_for_task task
+    @selected_stage = task.stage
+    project = @selected_stage.project
+    @project_label.setStringValue(project.name)
+    @stage_label.setStringValue(@selected_stage.name)
+    @task_field.setStringValue task.name
+    
     NSApp.activateIgnoringOtherApps(true)
     @run_task_dialog.makeFirstResponder(@description_field)
     @run_task_dialog.makeKeyAndOrderFront(self)
@@ -167,6 +178,23 @@ class ProjectController < OSX::NSWindowController
   end
   ib_action :run_task
   
+  def register_quick_deploy_shortcut key_combo
+    @hotkey_center.objc_send(
+      :registerHotKeyWithKeyCode, key_combo["keyCode"],
+      :modifierFlags, key_combo["modifierFlags"],
+      :target, self,
+      :action, "quick_deploy_hotkey_pressed:",
+      :object, self
+    )
+  end
+  
+  def quick_deploy_hotkey_pressed(sender=nil)
+    if @quick_deploy_window.isVisible
+      @quick_deploy_window.close
+    else
+      quick_deploy
+    end
+  end
   
   def quick_deploy(sender=nil)
     @quick_deploy_window.makeKeyAndOrderFront(self)
@@ -196,21 +224,21 @@ class ProjectController < OSX::NSWindowController
         end
       end 
     end
-    
-    @quick_deploy_table.reloadData
+    controlTextDidChange
   end
   ib_action :quick_deploy
   
   def execute_quick_deploy(sender=nil)
     if @quick_deploy_table.selectedRow
-      @object = @objects[@quick_deploy_table.selectedRow]
+      object = @objects[@quick_deploy_table.selectedRow]
       
-      @task_field.setStringValue(@object["Action"])
-      @selected_stage = @object[:stage]
-      @run_task_dialog.makeFirstResponder(@description_field)
-      @run_task_dialog.makeKeyAndOrderFront(self)
-      NSApp.activateIgnoringOtherApps(true)
-      @run_task_dialog.center
+      task = Task.new 
+      task.stage = object[:stage]
+      task.name = object["Action"]
+      task.description = task.name
+            
+      @quick_deploy_window.close      
+      show_run_window_for_task task
     end
     
   end
@@ -220,7 +248,7 @@ class ProjectController < OSX::NSWindowController
     return @objects.length rescue 0
   end
   
-  def controlTextDidChange(note)
+  def controlTextDidChange note=nil
     value = @quick_deploy_text_field.stringValue.to_s
     @all_objects.sort! do |a, b|
       a[:scores] ||= {}
@@ -313,9 +341,10 @@ class ProjectController < OSX::NSWindowController
     status_menu.insertItem_atIndex(NSMenuItem.separatorItem, status_menu.numberOfItems)
     
     # Quick Deploy
-    item = NSMenuItem.alloc.initWithTitle_action_keyEquivalent("Quick Deploy", "quick_deploy:", "")
-    item.setEnabled false
-    status_menu.insertItem_atIndex(item, status_menu.numberOfItems)
+    
+    @quick_deploy_menu_item = NSMenuItem.alloc.initWithTitle_action_keyEquivalent("Quick Deploy", "quick_deploy:", "")
+    @quick_deploy_menu_item.setEnabled false
+    status_menu.insertItem_atIndex(@quick_deploy_menu_item, status_menu.numberOfItems)
     
     # Show Status Window
     item = status_menu.insertItemWithTitle_action_keyEquivalent_atIndex_("Show Status Window", "show_status:", "", status_menu.numberOfItems)

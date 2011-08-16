@@ -17,15 +17,23 @@ class PreferencesController < OSX::NSWindowController
   ib_outlet :host_field
   ib_outlet :username_field
   ib_outlet :password_field
+  ib_outlet :quick_deploy_hotkey_recorder
+  ib_outlet :project_controller
   
   def init
     init_hosts
     self
   end
 
+
+  def awakeFromNib
+    init_key_combo
+  end
+  
   def register_defaults
     appDefaults = NSMutableDictionary.dictionary
     appDefaults.setObject_forKey([], "hosts")
+    appDefaults.setObject_forKey([], "keyCombo")
     NSUserDefaults.standardUserDefaults.registerDefaults appDefaults
   end
   
@@ -41,6 +49,23 @@ class PreferencesController < OSX::NSWindowController
       @hosts << host
     end
     fetchPasswords
+  end
+  
+  def init_key_combo
+    if read_key_combo
+      set_menu_item_key_combo
+      @project_controller.register_quick_deploy_shortcut(@key_combo)
+    end
+  end
+  
+  def read_key_combo
+    array = NSUserDefaults.standardUserDefaults.arrayForKey("keyCombo")
+    return nil unless array.length == 3
+    @key_combo = {
+      "characters"    => array[0],
+      "keyCode"       => array[1],
+      "modifierFlags" => array[2]
+    }
   end
   
   def fetchPasswords
@@ -156,6 +181,31 @@ class PreferencesController < OSX::NSWindowController
   def save_hosts_to_preferences
     NSUserDefaults.standardUserDefaults.setObject_forKey(hosts_as_list, "hosts")
     NSUserDefaults.standardUserDefaults.synchronize
+  end
+  
+  def key_combo_as_list
+    [@key_combo["characters"], @key_combo["keyCode"], @key_combo["modifierFlags"]]
+  end
+  
+  def save_key_combo_to_preferences
+    NSUserDefaults.standardUserDefaults.setObject_forKey(key_combo_as_list, "keyCombo")
+    NSUserDefaults.standardUserDefaults.synchronize    
+  end
+  
+  def change_quick_deploy_shortcut
+    @key_combo = @quick_deploy_hotkey_recorder.objectValue
+    
+    set_menu_item_key_combo
+    
+    @project_controller.register_quick_deploy_shortcut(@key_combo)
+    save_key_combo_to_preferences
+  end
+  
+  def set_menu_item_key_combo
+    return unless @project_controller.quick_deploy_menu_item
+    menu_item = @project_controller.quick_deploy_menu_item
+    menu_item.setKeyEquivalentModifierMask @key_combo["modifierFlags"]
+    menu_item.setKeyEquivalent @key_combo["characters"]
   end
   
   def hosts_as_list

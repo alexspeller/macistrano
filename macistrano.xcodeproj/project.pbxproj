@@ -13,12 +13,21 @@
 		4DDCA70A0ACC9A6100E082CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		4DDCA70C0ACC9A6100E082CE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		4DDCA70D0ACC9A6100E082CE /* RubyCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8F5E24E03AEB6EC03A81C6F /* RubyCocoa.framework */; };
+		531078A213F8969D001952EB /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 531078A113F8969D001952EB /* ShortcutRecorder.framework */; };
+		531078DF13F897A6001952EB /* ShortcutRecorder.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 531078A113F8969D001952EB /* ShortcutRecorder.framework */; };
+		5310791813F9B54B001952EB /* HotKeyHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 5310791613F9B54B001952EB /* HotKeyHandler.h */; };
+		5310791913F9B54B001952EB /* HotKeyHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5310791713F9B54B001952EB /* HotKeyHandler.m */; };
+		5310795613F9C4A4001952EB /* ShortcutRecorder.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 531078A113F8969D001952EB /* ShortcutRecorder.framework */; };
+		5310797513F9C703001952EB /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5310797413F9C703001952EB /* ShortcutRecorder.framework */; };
 		5339961213ECA2DE006D1FB2 /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5339961113ECA2DE006D1FB2 /* BWToolkitFramework.framework */; };
 		5339961613ECA303006D1FB2 /* BWToolkitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5339961113ECA2DE006D1FB2 /* BWToolkitFramework.framework */; };
 		5339968713ECC188006D1FB2 /* icon-cancelled-large.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5339968413ECC188006D1FB2 /* icon-cancelled-large.gif */; };
 		5339968813ECC188006D1FB2 /* icon-failed-large.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5339968513ECC188006D1FB2 /* icon-failed-large.gif */; };
 		5339968913ECC188006D1FB2 /* icon-success-large.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5339968613ECC188006D1FB2 /* icon-success-large.gif */; };
 		5339977713F747E7006D1FB2 /* icon-webistrano-small-disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 5339977613F747E7006D1FB2 /* icon-webistrano-small-disabled.png */; };
+		5339984213F89194006D1FB2 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5339984113F89194006D1FB2 /* Carbon.framework */; };
+		5339984813F891C6006D1FB2 /* DDHotKeyCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5339984613F891C6006D1FB2 /* DDHotKeyCenter.h */; };
+		5339984913F891C6006D1FB2 /* DDHotKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5339984713F891C6006D1FB2 /* DDHotKeyCenter.m */; };
 		FE1191EC0DD89E120073164F /* task.rb in Resources */ = {isa = PBXBuildFile; fileRef = FE1191EB0DD89E120073164F /* task.rb */; };
 		FE17B5B60E0D7E0600682156 /* growl_notifier.rb in Resources */ = {isa = PBXBuildFile; fileRef = FE17B5B50E0D7E0600682156 /* growl_notifier.rb */; };
 		FE33BD980DDDFB3D003ACBAA /* load_operation.rb in Resources */ = {isa = PBXBuildFile; fileRef = FE33BD970DDDFB3D003ACBAA /* load_operation.rb */; };
@@ -61,6 +70,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				531078DF13F897A6001952EB /* ShortcutRecorder.framework in CopyFiles */,
 				5339961613ECA303006D1FB2 /* BWToolkitFramework.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,6 +81,7 @@
 			dstPath = BridgeSupport;
 			dstSubfolderSpec = 7;
 			files = (
+				5310795613F9C4A4001952EB /* ShortcutRecorder.framework in Copy Frameworks */,
 				FEA76B860DD7551500D171BE /* Security.bridgesupport in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -87,11 +98,19 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		4DDCA7110ACC9A6100E082CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4DDCA7120ACC9A6100E082CE /* Macistrano.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Macistrano.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		531078A113F8969D001952EB /* ShortcutRecorder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShortcutRecorder.framework; sourceTree = "<group>"; };
+		531078C913F89746001952EB /* ShortcutRecorder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShortcutRecorder.framework; path = ../../ShortcutRecorder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5310791613F9B54B001952EB /* HotKeyHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotKeyHandler.h; sourceTree = "<group>"; };
+		5310791713F9B54B001952EB /* HotKeyHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotKeyHandler.m; sourceTree = "<group>"; };
+		5310797413F9C703001952EB /* ShortcutRecorder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShortcutRecorder.framework; path = "../shortcutrecorder-read-only/build/Debug/ShortcutRecorder.framework"; sourceTree = SOURCE_ROOT; };
 		5339961113ECA2DE006D1FB2 /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = /Users/aspeller/Downloads/BWToolkit/BWToolkitFramework.framework; sourceTree = "<absolute>"; };
 		5339968413ECC188006D1FB2 /* icon-cancelled-large.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "icon-cancelled-large.gif"; sourceTree = "<group>"; };
 		5339968513ECC188006D1FB2 /* icon-failed-large.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "icon-failed-large.gif"; sourceTree = "<group>"; };
 		5339968613ECC188006D1FB2 /* icon-success-large.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "icon-success-large.gif"; sourceTree = "<group>"; };
 		5339977613F747E7006D1FB2 /* icon-webistrano-small-disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-webistrano-small-disabled.png"; sourceTree = "<group>"; };
+		5339984113F89194006D1FB2 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		5339984613F891C6006D1FB2 /* DDHotKeyCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHotKeyCenter.h; sourceTree = "<group>"; };
+		5339984713F891C6006D1FB2 /* DDHotKeyCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHotKeyCenter.m; sourceTree = "<group>"; };
 		E8F5E24E03AEB6EC03A81C6F /* RubyCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RubyCocoa.framework; path = /System/Library/Frameworks/RubyCocoa.framework; sourceTree = "<absolute>"; };
 		E8F5E25803AEB7C803A81C6F /* rb_main.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = rb_main.rb; sourceTree = "<group>"; };
 		FE1191EB0DD89E120073164F /* task.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; name = task.rb; path = model/task.rb; sourceTree = "<group>"; };
@@ -140,6 +159,9 @@
 				4DDCA70C0ACC9A6100E082CE /* Cocoa.framework in Frameworks */,
 				4DDCA70D0ACC9A6100E082CE /* RubyCocoa.framework in Frameworks */,
 				5339961213ECA2DE006D1FB2 /* BWToolkitFramework.framework in Frameworks */,
+				5339984213F89194006D1FB2 /* Carbon.framework in Frameworks */,
+				531078A213F8969D001952EB /* ShortcutRecorder.framework in Frameworks */,
+				5310797513F9C703001952EB /* ShortcutRecorder.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,6 +171,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				5339984613F891C6006D1FB2 /* DDHotKeyCenter.h */,
+				5339984713F891C6006D1FB2 /* DDHotKeyCenter.m */,
 				FEE6BA2F0F2879F700402101 /* growl_support.rb */,
 				FE33BD970DDDFB3D003ACBAA /* load_operation.rb */,
 				FEA7AD5C0DDCB2E00032FE31 /* notification_hub.rb */,
@@ -161,6 +185,9 @@
 				FE9BA8680DC65FA8008EF6F8 /* host.rb */,
 				FEA76BB10DD75E4F00D171BE /* keychain.rb */,
 				FE517D850DDF2B5B00CA0249 /* load_operation_queue.rb */,
+				5310791613F9B54B001952EB /* HotKeyHandler.h */,
+				5310797413F9C703001952EB /* ShortcutRecorder.framework */,
+				5310791713F9B54B001952EB /* HotKeyHandler.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -168,9 +195,11 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				531078C913F89746001952EB /* ShortcutRecorder.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				E8F5E24E03AEB6EC03A81C6F /* RubyCocoa.framework */,
 				5339961113ECA2DE006D1FB2 /* BWToolkitFramework.framework */,
+				5339984113F89194006D1FB2 /* Carbon.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -178,6 +207,7 @@
 		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				531078A113F8969D001952EB /* ShortcutRecorder.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 			);
@@ -283,6 +313,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5339984813F891C6006D1FB2 /* DDHotKeyCenter.h in Headers */,
+				5310791813F9B54B001952EB /* HotKeyHandler.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,6 +421,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4DDCA70A0ACC9A6100E082CE /* main.m in Sources */,
+				5339984913F891C6006D1FB2 /* DDHotKeyCenter.m in Sources */,
+				5310791913F9B54B001952EB /* HotKeyHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +483,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Library/Frameworks\"",
 					"\"$(SRCROOT)/../../Downloads/BWToolkit\"",
+					"\"$(SRCROOT)/../shortcutrecorder-read-only/build/Debug\"",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -473,6 +509,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Library/Frameworks\"",
 					"\"$(SRCROOT)/../../Downloads/BWToolkit\"",
+					"\"$(SRCROOT)/../shortcutrecorder-read-only/build/Debug\"",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_MODEL_TUNING = G5;
 				INFOPLIST_FILE = Info.plist;
