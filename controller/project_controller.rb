@@ -48,7 +48,7 @@ class ProjectController < OSX::NSWindowController
   
   def awakeFromNib
     @webistrano_controller = WebistranoController.alloc.init
-    @status_menu = OSX::NSMenu.alloc.init
+    @status_menu = NSMenu.alloc.init
     @hotkey_center = DDHotKeyCenter.alloc.init
     show_preferences(self) if @preferences_controller.hosts.empty?
     webistrano_controller.hosts = @preferences_controller.hosts
@@ -109,7 +109,7 @@ class ProjectController < OSX::NSWindowController
   
   def update_status_window(notification)
     @status_hud_window_text.setString notification.object.log
-    range = OSX::NSRange.new(@status_hud_window_text.string.length, 0)
+    range = NSRange.new(@status_hud_window_text.string.length, 0)
     @status_hud_window_text.scrollRangeToVisible range
   end
   
@@ -323,7 +323,7 @@ class ProjectController < OSX::NSWindowController
   end
    
   def create_status_bar
-    @statusItem = OSX::NSStatusBar.systemStatusBar.statusItemWithLength(OSX::NSVariableStatusItemLength)
+    @statusItem = NSStatusBar.systemStatusBar.statusItemWithLength(NSVariableStatusItemLength)
     set_status_icon 'webistrano-small-disabled'
     @statusItem.setHighlightMode true
     @statusItem.setMenu @status_menu
