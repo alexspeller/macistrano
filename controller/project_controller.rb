@@ -151,8 +151,8 @@ class ProjectController < OSX::NSWindowController
     
     NSApp.activateIgnoringOtherApps(true)
     @run_task_dialog.makeFirstResponder(@description_field)
-    @run_task_dialog.makeKeyAndOrderFront(self)
     @run_task_dialog.center
+    @run_task_dialog.makeKeyAndOrderFront(self)
   end
   
   def stage_clicked(sender)
