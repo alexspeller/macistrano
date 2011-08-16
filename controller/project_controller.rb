@@ -171,6 +171,7 @@ class ProjectController < OSX::NSWindowController
     @selected_stage.run_stage taskName, description
     case @show_status_window_checkbox.state.to_i
     when 1:
+      @status_hud_window.center
       show_status
     when 0:
       @status_hud_window.close
